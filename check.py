@@ -16,6 +16,7 @@ def get_country():
     return ""
 
 papers_with_aff = {"title": [], "affiliations": []}
+all_affiliations = set()
 
 for paper in volume.papers():
     affiliations = set()
@@ -33,5 +34,10 @@ for paper in volume.papers():
         papers_with_aff["title"].append(paper.title)
         papers_with_aff["affiliations"].append(affiliations)
 
+        all_affiliations = all_affiliations | affiliations
+
 df = pd.DataFrame(papers_with_aff)
+df.to_csv("affiliations_per_paper.csv")
+
+df = pd.DataFrame({"affiliation": list(all_affiliations)})
 df.to_csv("affiliations.csv")
