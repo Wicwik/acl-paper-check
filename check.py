@@ -43,7 +43,7 @@ for paper in volume.papers():
 
         for author in paper.authors:
             if author.affiliation:
-                if "and" in author.affiliation:
+                if " and " in author.affiliation:
                     affiliations = affiliations | set(author.affiliation.split(" and "))
                 else:
                     affiliations.add(author.affiliation)
