@@ -4,13 +4,19 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 
 def apply_test_template(message, tokenizer):
-    messages = [{"role": "system", "content": "You are a helpful assistant that knows everything about research institutes in the world. When asked, reply only with the country."}, {"role": "user", "content": message}]
+    messages = [
+        {
+            "role": "system",
+            "content": "You are a helpful assistant that knows everything about research institutes in the world. When asked, reply only with the country.",
+        },
+        {"role": "user", "content": message},
+    ]
     return tokenizer.apply_chat_template(
-            [messages], tokenize=False, add_generation_prompt=True
+        [messages], tokenize=False, add_generation_prompt=True
     )
 
-def predict(sentence, model, tokenizer):
 
+def predict(sentence, model, tokenizer):
     sentence = apply_test_template(sentence, tokenizer)
 
     # print(sentence)
@@ -34,13 +40,12 @@ def predict(sentence, model, tokenizer):
     else:
         answer = (
             result[0]["generated_text"]
-            .split("label:<|eot_id|><|start_header_id|>assistant<|end_header_id|>")[
-                -1
-            ]
+            .split("label:<|eot_id|><|start_header_id|>assistant<|end_header_id|>")[-1]
             .strip()
-            )
+        )
 
     return answer
+
 
 def get_model():
     model = AutoModelForCausalLM.from_pretrained(
